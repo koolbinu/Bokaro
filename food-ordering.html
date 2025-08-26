@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Food - Thermal Connect | Local Restaurants in Bokaro Thermal</title>
+    <meta name="description" content="Order delicious food from local restaurants and shops in Bokaro Thermal. Support local businesses with online food delivery.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #0077b6;
+            text-align: center;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #ff6b6b;
+            background: white;
+            color: #ff6b6b;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .restaurant-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .restaurant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .restaurant-info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .restaurant-category {
+            background: #ffe8e8;
+            color: #ff6b6b;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .restaurant-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .restaurant-details p {
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .restaurant-details i {
+            color: #ff6b6b;
+            width: 16px;
+        }
+
+        .popular-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .popular-items h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .items-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .item-tag {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .order-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .order-btn:hover {
+            background: #ee5a24;
+            transform: translateY(-2px);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0077b6;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #0077b6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .category-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .restaurant-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Thermal Connect</h1>
+                    <p>Bokaro Thermal (829107)</p>
+                </div>
+                <button class="nav-toggle" onclick="toggleNav()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav id="nav">
+                    <a href="index.html">Home</a>
+                    <a href="car-booking.html">Book Car</a>
+                    <a href="bus-timing.html">Bus Timing</a>
+                    <a href="train-info.html">Train Info</a>
+                    <a href="food-ordering.html">Order Food</a>
+                    <a href="register.html">Register</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Order Food in Bokaro Thermal</h1>
+            <p>Delicious food from local restaurants and shops. Support local businesses!</p>
+            <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order food from Thermal Connect. Please provide details about what you'd like to order." class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+                Order Food on WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <section class="main-content">
+        <div class="container">
+            <h2 class="section-title">Local Restaurants & Shops</h2>
+            
+            <div class="category-filters">
+                <button class="category-btn active" onclick="filterRestaurants('all')">All</button>
+                <button class="category-btn" onclick="filterRestaurants('restaurant')">Restaurants</button>
+                <button class="category-btn" onclick="filterRestaurants('sweets')">Sweets & Snacks</button>
+                <button class="category-btn" onclick="filterRestaurants('bakery')">Bakery</button>
+                <button class="category-btn" onclick="filterRestaurants('juice')">Juice & Beverages</button>
+            </div>
+
+            <div class="restaurants-grid">
+                <div class="restaurant-card restaurant-row restaurant">
+                    <div class="restaurant-header">
+                        <div class="restaurant-info">
+                            <h3>Thermal Dhaba</h3>
+                            <span class="restaurant-category">Restaurant</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-details">
+                        <p><i class="fas fa-map-marker-alt"></i> Near Bus Stand, Bokaro Thermal</p>
+                        <p><i class="fas fa-clock"></i> 6:00 AM - 11:00 PM</p>
+                        <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    </div>
+                    <div class="popular-items">
+                        <h4>Popular Items:</h4>
+                        <div class="items-list">
+                            <span class="item-tag">Dal Rice</span>
+                            <span class="item-tag">Chicken Curry</span>
+                            <span class="item-tag">Roti Sabzi</span>
+                            <span class="item-tag">Tea</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order from Thermal Dhaba. Please provide details about what you'd like to order." class="order-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Order on WhatsApp
+                    </a>
+                </div>
+
+                <div class="restaurant-card restaurant-row sweets">
+                    <div class="restaurant-header">
+                        <div class="restaurant-info">
+                            <h3>Bokaro Sweets</h3>
+                            <span class="restaurant-category">Sweets & Snacks</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-details">
+                        <p><i class="fas fa-map-marker-alt"></i> Market Road, Bokaro Thermal</p>
+                        <p><i class="fas fa-clock"></i> 8:00 AM - 9:00 PM</p>
+                        <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    </div>
+                    <div class="popular-items">
+                        <h4>Popular Items:</h4>
+                        <div class="items-list">
+                            <span class="item-tag">Gulab Jamun</span>
+                            <span class="item-tag">Rasgulla</span>
+                            <span class="item-tag">Samosa</span>
+                            <span class="item-tag">Jalebi</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order from Bokaro Sweets. Please provide details about what you'd like to order." class="order-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Order on WhatsApp
+                    </a>
+                </div>
+
+                <div class="restaurant-card restaurant-row bakery">
+                    <div class="restaurant-header">
+                        <div class="restaurant-info">
+                            <h3>Thermal Bakery</h3>
+                            <span class="restaurant-category">Bakery</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-details">
+                        <p><i class="fas fa-map-marker-alt"></i> Station Road, Bokaro Thermal</p>
+                        <p><i class="fas fa-clock"></i> 7:00 AM - 8:00 PM</p>
+                        <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    </div>
+                    <div class="popular-items">
+                        <h4>Popular Items:</h4>
+                        <div class="items-list">
+                            <span class="item-tag">Bread</span>
+                            <span class="item-tag">Biscuits</span>
+                            <span class="item-tag">Cakes</span>
+                            <span class="item-tag">Pastries</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order from Thermal Bakery. Please provide details about what you'd like to order." class="order-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Order on WhatsApp
+                    </a>
+                </div>
+
+                <div class="restaurant-card restaurant-row juice">
+                    <div class="restaurant-header">
+                        <div class="restaurant-info">
+                            <h3>Fresh Juice Corner</h3>
+                            <span class="restaurant-category">Juice & Beverages</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-details">
+                        <p><i class="fas fa-map-marker-alt"></i> Near Railway Station, Bokaro Thermal</p>
+                        <p><i class="fas fa-clock"></i> 8:00 AM - 10:00 PM</p>
+                        <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    </div>
+                    <div class="popular-items">
+                        <h4>Popular Items:</h4>
+                        <div class="items-list">
+                            <span class="item-tag">Orange Juice</span>
+                            <span class="item-tag">Mango Juice</span>
+                            <span class="item-tag">Lemon Soda</span>
+                            <span class="item-tag">Lassi</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order from Fresh Juice Corner. Please provide details about what you'd like to order." class="order-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Order on WhatsApp
+                    </a>
+                </div>
+
+                <div class="restaurant-card restaurant-row restaurant">
+                    <div class="restaurant-header">
+                        <div class="restaurant-info">
+                            <h3>Spice Garden</h3>
+                            <span class="restaurant-category">Restaurant</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-details">
+                        <p><i class="fas fa-map-marker-alt"></i> Main Market, Bokaro Thermal</p>
+                        <p><i class="fas fa-clock"></i> 11:00 AM - 11:00 PM</p>
+                        <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    </div>
+                    <div class="popular-items">
+                        <h4>Popular Items:</h4>
+                        <div class="items-list">
+                            <span class="item-tag">Biryani</span>
+                            <span class="item-tag">Butter Chicken</span>
+                            <span class="item-tag">Paneer Dishes</span>
+                            <span class="item-tag">Naan</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order from Spice Garden. Please provide details about what you'd like to order." class="order-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Order on WhatsApp
+                    </a>
+                </div>
+
+                <div class="restaurant-card restaurant-row sweets">
+                    <div class="restaurant-header">
+                        <div class="restaurant-info">
+                            <h3>Namkeen House</h3>
+                            <span class="restaurant-category">Sweets & Snacks</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-details">
+                        <p><i class="fas fa-map-marker-alt"></i> Bus Stand Market, Bokaro Thermal</p>
+                        <p><i class="fas fa-clock"></i> 7:00 AM - 8:00 PM</p>
+                        <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    </div>
+                    <div class="popular-items">
+                        <h4>Popular Items:</h4>
+                        <div class="items-list">
+                            <span class="item-tag">Mixture</span>
+                            <span class="item-tag">Bhujia</span>
+                            <span class="item-tag">Chakli</span>
+                            <span class="item-tag">Murmura</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order from Namkeen House. Please provide details about what you'd like to order." class="order-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Order on WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Hungry? Order Now!</h2>
+                <p>Simply click the WhatsApp button below and send us your food order. We'll connect you with the best local restaurants!</p>
+                <a href="https://wa.me/91XXXXXXXXXX?text=Hi, I want to order food from Thermal Connect. Please provide details about what you'd like to order." class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i>
+                    Order Food on WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Bokaro Thermal, Jharkhand – 829107</p>
+                    <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    <p><i class="fas fa-envelope"></i> info@thermalconnect.in</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="car-booking.html">Book Car</a>
+                    <a href="bus-timing.html">Bus Timing</a>
+                    <a href="train-info.html">Train Info</a>
+                    <a href="food-ordering.html">Order Food</a>
+                </div>
+                <div class="footer-section">
+                    <h3>For Business</h3>
+                    <a href="register.html">Register Your Business</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>🌟 "Making travel and food easy for Bokaro Thermal people."</p>
+                <p>&copy; 2025 Thermal Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+
+        function filterRestaurants(category) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Show/hide restaurants based on category
+            const restaurants = document.querySelectorAll('.restaurant-row');
+            restaurants.forEach(restaurant => {
+                if (category === 'all' || restaurant.classList.contains(category)) {
+                    restaurant.style.display = 'block';
+                } else {
+                    restaurant.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

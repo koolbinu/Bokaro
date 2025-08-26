@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Timing - Thermal Connect | Bus Schedule in Bokaro Thermal</title>
+    <meta name="description" content="Check bus schedule and timings from Bokaro Thermal. View routes, departure times, and bus information.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #0077b6;
+            text-align: center;
+        }
+
+        .route-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .route-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #0077b6;
+            background: white;
+            color: #0077b6;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .route-btn.active,
+        .route-btn:hover {
+            background: #0077b6;
+            color: white;
+        }
+
+        .bus-schedule {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .schedule-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #0077b6;
+        }
+
+        .schedule-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .time {
+            font-weight: 600;
+            color: #0077b6;
+        }
+
+        .route {
+            font-weight: 500;
+        }
+
+        .frequency {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.inactive {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #0077b6;
+        }
+
+        .info-card h3 {
+            color: #0077b6;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .info-card p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0077b6;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #0077b6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .route-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .route-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .schedule-table {
+                font-size: 0.9rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Thermal Connect</h1>
+                    <p>Bokaro Thermal (829107)</p>
+                </div>
+                <button class="nav-toggle" onclick="toggleNav()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav id="nav">
+                    <a href="index.html">Home</a>
+                    <a href="car-booking.html">Book Car</a>
+                    <a href="bus-timing.html">Bus Timing</a>
+                    <a href="train-info.html">Train Info</a>
+                    <a href="food-ordering.html">Order Food</a>
+                    <a href="register.html">Register</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Bus Timing - Bokaro Thermal</h1>
+            <p>Check bus schedule and routes from Bokaro Thermal to various destinations</p>
+        </div>
+    </section>
+
+    <section class="main-content">
+        <div class="container">
+            <h2 class="section-title">Bus Schedule</h2>
+            
+            <div class="route-filters">
+                <button class="route-btn active" onclick="filterRoutes('all')">All Routes</button>
+                <button class="route-btn" onclick="filterRoutes('local')">Local</button>
+                <button class="route-btn" onclick="filterRoutes('intercity')">Intercity</button>
+                <button class="route-btn" onclick="filterRoutes('long-distance')">Long Distance</button>
+            </div>
+
+            <div class="bus-schedule">
+                <h3>Daily Bus Schedule</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Route</th>
+                            <th>Destination</th>
+                            <th>Bus Type</th>
+                            <th>Frequency</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="route-row local">
+                            <td class="time">05:30 AM</td>
+                            <td class="route">Bokaro Thermal → Bokaro Steel City</td>
+                            <td>Bokaro Steel City</td>
+                            <td>Local Bus</td>
+                            <td class="frequency">Every 30 minutes</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row local">
+                            <td class="time">06:00 AM</td>
+                            <td class="route">Bokaro Thermal → Dhanbad</td>
+                            <td>Dhanbad</td>
+                            <td>Express Bus</td>
+                            <td class="frequency">Every 2 hours</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row intercity">
+                            <td class="time">07:00 AM</td>
+                            <td class="route">Bokaro Thermal → Ranchi</td>
+                            <td>Ranchi</td>
+                            <td>AC Bus</td>
+                            <td class="frequency">Every 3 hours</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row local">
+                            <td class="time">08:00 AM</td>
+                            <td class="route">Bokaro Thermal → Chandrapura</td>
+                            <td>Chandrapura</td>
+                            <td>Local Bus</td>
+                            <td class="frequency">Every hour</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row long-distance">
+                            <td class="time">09:00 AM</td>
+                            <td class="route">Bokaro Thermal → Patna</td>
+                            <td>Patna</td>
+                            <td>AC Sleeper</td>
+                            <td class="frequency">Daily</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row intercity">
+                            <td class="time">10:00 AM</td>
+                            <td class="route">Bokaro Thermal → Jamshedpur</td>
+                            <td>Jamshedpur</td>
+                            <td>Express Bus</td>
+                            <td class="frequency">Every 4 hours</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row local">
+                            <td class="time">11:00 AM</td>
+                            <td class="route">Bokaro Thermal → Hazaribagh</td>
+                            <td>Hazaribagh</td>
+                            <td>Local Bus</td>
+                            <td class="frequency">Every 2 hours</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row long-distance">
+                            <td class="time">02:00 PM</td>
+                            <td class="route">Bokaro Thermal → Kolkata</td>
+                            <td>Kolkata</td>
+                            <td>AC Sleeper</td>
+                            <td class="frequency">Daily</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row local">
+                            <td class="time">03:00 PM</td>
+                            <td class="route">Bokaro Thermal → Giridih</td>
+                            <td>Giridih</td>
+                            <td>Local Bus</td>
+                            <td class="frequency">Every 3 hours</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row intercity">
+                            <td class="time">04:00 PM</td>
+                            <td class="route">Bokaro Thermal → Deoghar</td>
+                            <td>Deoghar</td>
+                            <td>Express Bus</td>
+                            <td class="frequency">Daily</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row local">
+                            <td class="time">06:00 PM</td>
+                            <td class="route">Bokaro Thermal → Bokaro Steel City</td>
+                            <td>Bokaro Steel City</td>
+                            <td>Local Bus</td>
+                            <td class="frequency">Every 30 minutes</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row long-distance">
+                            <td class="time">08:00 PM</td>
+                            <td class="route">Bokaro Thermal → Delhi</td>
+                            <td>Delhi</td>
+                            <td>AC Sleeper</td>
+                            <td class="frequency">Daily</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                        <tr class="route-row local">
+                            <td class="time">09:00 PM</td>
+                            <td class="route">Bokaro Thermal → Dhanbad</td>
+                            <td>Dhanbad</td>
+                            <td>Express Bus</td>
+                            <td class="frequency">Every 2 hours</td>
+                            <td><span class="status active">Active</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Important Information</h3>
+                    <p><strong>Bus Stand:</strong> Bokaro Thermal Bus Stand</p>
+                    <p><strong>Contact:</strong> +91 XXXXX XXXXX</p>
+                    <p><strong>Timings:</strong> 5:30 AM to 9:00 PM</p>
+                    <p><strong>Note:</strong> Timings may vary during holidays</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Travel Tips</h3>
+                    <p>• Arrive 15 minutes before departure time</p>
+                    <p>• Carry valid ID proof for long-distance travel</p>
+                    <p>• Book tickets in advance for AC buses</p>
+                    <p>• Check weather conditions before travel</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-phone"></i> Contact Information</h3>
+                    <p><strong>Bus Stand Office:</strong> +91 XXXXX XXXXX</p>
+                    <p><strong>Customer Care:</strong> +91 XXXXX XXXXX</p>
+                    <p><strong>Emergency:</strong> +91 XXXXX XXXXX</p>
+                    <p><strong>Email:</strong> info@thermalconnect.in</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Bokaro Thermal, Jharkhand – 829107</p>
+                    <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                    <p><i class="fas fa-envelope"></i> info@thermalconnect.in</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="car-booking.html">Book Car</a>
+                    <a href="bus-timing.html">Bus Timing</a>
+                    <a href="train-info.html">Train Info</a>
+                    <a href="food-ordering.html">Order Food</a>
+                </div>
+                <div class="footer-section">
+                    <h3>For Business</h3>
+                    <a href="register.html">Register Your Business</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>🌟 "Making travel and food easy for Bokaro Thermal people."</p>
+                <p>&copy; 2025 Thermal Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+
+        function filterRoutes(category) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.route-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Show/hide rows based on category
+            const rows = document.querySelectorAll('.route-row');
+            rows.forEach(row => {
+                if (category === 'all' || row.classList.contains(category)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

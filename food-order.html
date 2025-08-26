@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Food - Thermal Connect | Local Restaurants & Shops in Bokaro Thermal</title>
+    <meta name="description" content="Order fresh food from local restaurants and shops in Bokaro Thermal. Support local businesses with online food delivery.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .food-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .food-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .food-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .food-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .category-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #ff6b6b;
+            background: white;
+            color: #ff6b6b;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .category-btn.active,
+        .category-btn:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .shop-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #ff6b6b;
+            transition: transform 0.3s ease;
+        }
+        
+        .shop-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .shop-info {
+            flex: 1;
+        }
+        
+        .shop-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .shop-category {
+            background: #ffe8e8;
+            color: #ff6b6b;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .shop-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stars {
+            color: #ffd700;
+        }
+        
+        .rating-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .shop-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .status-open {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-closed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .shop-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .specialties {
+            margin-bottom: 1.5rem;
+        }
+        
+        .specialties h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .specialty-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .specialty-tag {
+            background: #f8f9fa;
+            color: #666;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .shop-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+        
+        .detail-item i {
+            color: #ff6b6b;
+            width: 20px;
+        }
+        
+        .shop-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-order {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-order:hover {
+            background: #ee5a24;
+            transform: translateY(-2px);
+        }
+        
+        .btn-call {
+            background: white;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+        
+        .btn-call:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-menu {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #e9ecef;
+        }
+        
+        .btn-menu:hover {
+            background: #e9ecef;
+        }
+        
+        .back-to-home {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .back-to-home .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-home .btn:hover {
+            background: #ee5a24;
+            transform: translateY(-2px);
+        }
+        
+        .info-banner {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .info-banner h3 {
+            color: #0c5460;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-banner p {
+            color: #0c5460;
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .food-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .shop-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .shop-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .shop-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🔥 Thermal Connect</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#partner">Partner</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Food Hero Section -->
+    <section class="food-hero">
+        <div class="container">
+            <h1>🥘 Order Local Food - Bokaro Thermal</h1>
+            <p>Support local shopkeepers and restaurants with online food ordering</p>
+            <div class="live-status">
+                <i class="fas fa-circle"></i>
+                Fresh Food Available
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Ordering Section -->
+    <section class="food-container">
+        <!-- Info Banner -->
+        <div class="info-banner">
+            <h3>🍽️ How to Order</h3>
+            <p>Call the shop directly or visit them to place your order. All shops deliver to your home in Bokaro Thermal area.</p>
+        </div>
+
+        <div class="category-filters">
+            <button class="category-btn active" data-filter="all">All Shops</button>
+            <button class="category-btn" data-filter="restaurant">Restaurants</button>
+            <button class="category-btn" data-filter="sweets">Sweet Shops</button>
+            <button class="category-btn" data-filter="bakery">Bakery</button>
+            <button class="category-btn" data-filter="tea">Tea & Snacks</button>
+            <button class="category-btn" data-filter="grocery">Grocery</button>
+        </div>
+
+        <!-- Restaurants -->
+        <div class="shop-card" data-category="restaurant">
+            <div class="shop-header">
+                <div class="shop-info">
+                    <h3 class="shop-name">🍽️ Thermal Dhaba</h3>
+                    <span class="shop-category">Restaurant</span>
+                    <div class="shop-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-text">4.5 (120 reviews)</span>
+                    </div>
+                </div>
+                <div class="shop-status status-open">🟢 Open Now</div>
+            </div>
+            
+            <p class="shop-description">Famous for authentic North Indian cuisine. Best place for lunch and dinner with family.</p>
+            
+            <div class="specialties">
+                <h4>🍴 Popular Dishes</h4>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Butter Chicken</span>
+                    <span class="specialty-tag">Dal Makhani</span>
+                    <span class="specialty-tag">Naan</span>
+                    <span class="specialty-tag">Biryani</span>
+                    <span class="specialty-tag">Tandoori</span>
+                </div>
+            </div>
+            
+            <div class="shop-details">
+                <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>7:00 AM - 11:00 PM</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Near Bus Stand, Main Road</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>₹200-500 for 2 people</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Home Delivery Available</span>
+                </div>
+            </div>
+            
+            <div class="shop-actions">
+                <a href="tel:+91943110001" class="action-btn btn-order">
+                    <i class="fas fa-phone"></i>
+                    📞 Call to Order
+                </a>
+                <a href="#" class="action-btn btn-menu">
+                    <i class="fas fa-list"></i>
+                    View Menu
+                </a>
+            </div>
+        </div>
+
+        <div class="shop-card" data-category="restaurant">
+            <div class="shop-header">
+                <div class="shop-info">
+                    <h3 class="shop-name">🍜 Chinese Corner</h3>
+                    <span class="shop-category">Restaurant</span>
+                    <div class="shop-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-text">4.0 (85 reviews)</span>
+                    </div>
+                </div>
+                <div class="shop-status status-open">🟢 Open Now</div>
+            </div>
+            
+            <p class="shop-description">Best Chinese food in Bokaro Thermal. Famous for noodles, fried rice, and Manchurian dishes.</p>
+            
+            <div class="specialties">
+                <h4>🍴 Popular Dishes</h4>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Chilli Chicken</span>
+                    <span class="specialty-tag">Veg Fried Rice</span>
+                    <span class="specialty-tag">Chow Mein</span>
+                    <span class="specialty-tag">Manchurian</span>
+                    <span class="specialty-tag">Spring Rolls</span>
+                </div>
+            </div>
+            
+            <div class="shop-details">
+                <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>11:00 AM - 10:00 PM</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Market Area, Near Post Office</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>₹150-300 for 2 people</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Home Delivery Available</span>
+                </div>
+            </div>
+            
+            <div class="shop-actions">
+                <a href="tel:+91943110002" class="action-btn btn-order">
+                    <i class="fas fa-phone"></i>
+                    📞 Call to Order
+                </a>
+                <a href="#" class="action-btn btn-menu">
+                    <i class="fas fa-list"></i>
+                    View Menu
+                </a>
+            </div>
+        </div>
+
+        <!-- Sweet Shops -->
+        <div class="shop-card" data-category="sweets">
+            <div class="shop-header">
+                <div class="shop-info">
+                    <h3 class="shop-name">🍰 Mithai Ghar</h3>
+                    <span class="shop-category">Sweet Shop</span>
+                    <div class="shop-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-text">4.8 (200 reviews)</span>
+                    </div>
+                </div>
+                <div class="shop-status status-open">🟢 Open Now</div>
+            </div>
+            
+            <p class="shop-description">Traditional sweet shop with fresh mithai, namkeen, and special festival sweets.</p>
+            
+            <div class="specialties">
+                <h4>🍴 Popular Items</h4>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Gulab Jamun</span>
+                    <span class="specialty-tag">Rasgulla</span>
+                    <span class="specialty-tag">Ladoo</span>
+                    <span class="specialty-tag">Jalebi</span>
+                    <span class="specialty-tag">Namkeen</span>
+                </div>
+            </div>
+            
+            <div class="shop-details">
+                <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>6:00 AM - 10:00 PM</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Main Market, Near Bank</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>₹50-200 per kg</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Home Delivery Available</span>
+                </div>
+            </div>
+            
+            <div class="shop-actions">
+                <a href="tel:+91943110003" class="action-btn btn-order">
+                    <i class="fas fa-phone"></i>
+                    📞 Call to Order
+                </a>
+                <a href="#" class="action-btn btn-menu">
+                    <i class="fas fa-list"></i>
+                    View Menu
+                </a>
+            </div>
+        </div>
+
+        <!-- Bakery -->
+        <div class="shop-card" data-category="bakery">
+            <div class="shop-header">
+                <div class="shop-info">
+                    <h3 class="shop-name">🥖 Fresh Bake House</h3>
+                    <span class="shop-category">Bakery</span>
+                    <div class="shop-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-text">4.6 (150 reviews)</span>
+                    </div>
+                </div>
+                <div class="shop-status status-open">🟢 Open Now</div>
+            </div>
+            
+            <p class="shop-description">Fresh bread, cakes, pastries, and bakery items. Best for breakfast and snacks.</p>
+            
+            <div class="specialties">
+                <h4>🍴 Popular Items</h4>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">White Bread</span>
+                    <span class="specialty-tag">Cakes</span>
+                    <span class="specialty-tag">Biscuits</span>
+                    <span class="specialty-tag">Pastries</span>
+                    <span class="specialty-tag">Buns</span>
+                </div>
+            </div>
+            
+            <div class="shop-details">
+                <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>5:00 AM - 9:00 PM</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Near Railway Station</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>₹20-500 per item</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Home Delivery Available</span>
+                </div>
+            </div>
+            
+            <div class="shop-actions">
+                <a href="tel:+91943110004" class="action-btn btn-order">
+                    <i class="fas fa-phone"></i>
+                    📞 Call to Order
+                </a>
+                <a href="#" class="action-btn btn-menu">
+                    <i class="fas fa-list"></i>
+                    View Menu
+                </a>
+            </div>
+        </div>
+
+        <!-- Tea & Snacks -->
+        <div class="shop-card" data-category="tea">
+            <div class="shop-header">
+                <div class="shop-info">
+                    <h3 class="shop-name">☕ Chai Point</h3>
+                    <span class="shop-category">Tea & Snacks</span>
+                    <div class="shop-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="rating-text">4.2 (95 reviews)</span>
+                    </div>
+                </div>
+                <div class="shop-status status-open">🟢 Open Now</div>
+            </div>
+            
+            <p class="shop-description">Best tea and snacks corner. Famous for masala chai, samosa, and pakoras.</p>
+            
+            <div class="specialties">
+                <h4>🍴 Popular Items</h4>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Masala Chai</span>
+                    <span class="specialty-tag">Samosa</span>
+                    <span class="specialty-tag">Pakora</span>
+                    <span class="specialty-tag">Bread Pakora</span>
+                    <span class="specialty-tag">Biscuits</span>
+                </div>
+            </div>
+            
+            <div class="shop-details">
+                <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>6:00 AM - 8:00 PM</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Near Bus Stand</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>₹10-50 per item</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Home Delivery Available</span>
+                </div>
+            </div>
+            
+            <div class="shop-actions">
+                <a href="tel:+91943110005" class="action-btn btn-order">
+                    <i class="fas fa-phone"></i>
+                    📞 Call to Order
+                </a>
+                <a href="#" class="action-btn btn-menu">
+                    <i class="fas fa-list"></i>
+                    View Menu
+                </a>
+            </div>
+        </div>
+
+        <!-- Grocery -->
+        <div class="shop-card" data-category="grocery">
+            <div class="shop-header">
+                <div class="shop-info">
+                    <h3 class="shop-name">🛒 Daily Needs Store</h3>
+                    <span class="shop-category">Grocery</span>
+                    <div class="shop-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-text">4.4 (180 reviews)</span>
+                    </div>
+                </div>
+                <div class="shop-status status-open">🟢 Open Now</div>
+            </div>
+            
+            <p class="shop-description">Complete grocery store with fresh vegetables, fruits, and daily household items.</p>
+            
+            <div class="specialties">
+                <h4>🍴 Available Items</h4>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Fresh Vegetables</span>
+                    <span class="specialty-tag">Fruits</span>
+                    <span class="specialty-tag">Rice & Dal</span>
+                    <span class="specialty-tag">Oil & Ghee</span>
+                    <span class="specialty-tag">Spices</span>
+                </div>
+            </div>
+            
+            <div class="shop-details">
+                <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>7:00 AM - 9:00 PM</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Main Market Area</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Market Price</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Home Delivery Available</span>
+                </div>
+            </div>
+            
+            <div class="shop-actions">
+                <a href="tel:+91943110006" class="action-btn btn-order">
+                    <i class="fas fa-phone"></i>
+                    📞 Call to Order
+                </a>
+                <a href="#" class="action-btn btn-menu">
+                    <i class="fas fa-list"></i>
+                    View Items
+                </a>
+            </div>
+        </div>
+
+        <!-- Important Information -->
+        <div class="shop-card">
+            <h3>📋 Important Information</h3>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>All shops deliver to your home in Bokaro Thermal area</li>
+                <li>Call directly to place your order and confirm delivery time</li>
+                <li>Most shops accept cash on delivery</li>
+                <li>Some shops may have minimum order requirements</li>
+                <li>Delivery time: 30 minutes to 1 hour depending on distance</li>
+                <li>Support local businesses by ordering from these shops</li>
+            </ul>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="back-to-home">
+            <a href="index.html" class="btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🌟 Thermal Connect – Making life easy for Bokaro Thermal people.</p>
+            <p>&copy; 2024 Thermal Connect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.category-btn');
+            const shopCards = document.querySelectorAll('.shop-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show/hide cards based on filter
+                    shopCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html> 
